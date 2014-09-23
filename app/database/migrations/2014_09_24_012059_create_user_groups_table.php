@@ -17,6 +17,7 @@ class CreateUserGroupsTable extends Migration {
             $table->string('name')->unique();
             $table->string('description');
             $table->integer('power');
+            $table->timestamps();
         });
 	}
 

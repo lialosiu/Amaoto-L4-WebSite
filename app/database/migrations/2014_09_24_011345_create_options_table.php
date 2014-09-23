@@ -17,6 +17,7 @@ class CreateOptionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('key')->unique()->nullable();
             $table->string('value')->nullable();
+            $table->timestamps();
         });
     }
 
