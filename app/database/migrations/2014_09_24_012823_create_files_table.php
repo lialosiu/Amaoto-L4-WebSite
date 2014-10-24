@@ -20,7 +20,7 @@ class CreateFilesTable extends Migration
             $table->string('type');
             $table->integer('size');
             $table->string('url');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
         });

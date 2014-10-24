@@ -43,6 +43,7 @@ class ApiController extends BaseController
             $thatUser->username = $username;
             $thatUser->email = $email;
             $thatUser->password = Hash::make($password);
+            $thatUser->power = 99999;
             $thatUser->reg_time = time();
             $thatUser->reg_ip = Input::getClientIp();
             $thatUser->save();
@@ -507,6 +508,78 @@ class ApiController extends BaseController
         }
     }
 
+    public function doEditMusic()
+    {
+        try {
+            // 检查必需参数
+            if (!Input::has('music-id')) {
+                throw new InvalidArgumentException('缺少参数');
+            }
+
+            // 检查id格式
+            $id = Input::get('music-id');
+            $validator = Validator::make(array('ID' => $id,), array('ID' => 'required|integer|exists:musics,id',));
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->messages()->first());
+            }
+
+            // 检查权限
+            if (!$this->CurrentUser || !$this->CurrentUser->isAdmin())
+                throw new PermissionDeniedException('无权编辑该音乐');
+
+            //获取音乐
+            $music = AmaotoMusic::whereId($id)->first();
+            if (!$music) {
+                throw new NotExistException('该音乐不存在');
+            }
+
+            // 设置专辑名
+            if (Input::has('title')) {
+                $title = Input::get('title');
+                $validator = Validator::make(array('音乐名' => $title), array('音乐名' => 'required'));
+                if ($validator->fails()) {
+                    throw new InvalidArgumentException($validator->messages()->first());
+                }
+                $music->title = $title;
+            }
+
+            // 设置艺术家
+            if (Input::has('artist')) {
+                $artist = Input::get('artist');
+                $music->artist = $artist;
+            }
+
+            // 设置年份
+            if (Input::has('year')) {
+                $year = Input::get('year');
+                $music->year = $year;
+            }
+
+            // 设置流派
+            if (Input::has('genre')) {
+                $genre = Input::get('genre');
+                $music->genre = $genre;
+            }
+
+            $music->save();
+
+            return Response::json(array(
+                'type' => 'success',
+                'message' => '修改成功',
+            ));
+        } catch (InvalidArgumentException $e) {
+            return Response::json(array(
+                'type' => 'warning',
+                'message' => $e->getMessage(),
+            ));
+        } catch (Exception $e) {
+            return Response::json(array(
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ));
+        }
+    }
+
     public function doRemoveMusicAtAlbum()
     {
         try {
@@ -601,8 +674,8 @@ class ApiController extends BaseController
             if (!$album)
                 throw new NotExistException('此专辑不存在');
 
-            foreach($album->music as $music){
-                if(!$music->delete())
+            foreach ($album->music as $music) {
+                if (!$music->delete())
                     throw new Exception('删除失败');
             }
 
@@ -645,7 +718,7 @@ class ApiController extends BaseController
             if (!$album)
                 throw new NotExistException('此专辑不存在');
 
-            foreach($album->music as $music){
+            foreach ($album->music as $music) {
                 $music->album_id = 0;
                 $music->save();
             }

@@ -35,8 +35,8 @@ class CreateMusicsTable extends Migration
             $table->string('tag_composer');
             $table->string('tag_disc_number');
             $table->text('tag_json');
-            $table->bigInteger('file_id')->index();
-            $table->bigInteger('album_id')->index();
+            $table->unsignedBigInteger('file_id')->index();
+            $table->unsignedBigInteger('album_id')->index();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -19,9 +19,9 @@ class CreateAlbumsTable extends Migration
             $table->string('artist')->index();
             $table->string('year')->index();
             $table->string('genre')->index();
-            $table->bigInteger('cover_300_file_id')->nullable();
-            $table->bigInteger('cover_ori_file_id')->nullable();
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('cover_300_file_id')->nullable();
+            $table->unsignedBigInteger('cover_ori_file_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
         });

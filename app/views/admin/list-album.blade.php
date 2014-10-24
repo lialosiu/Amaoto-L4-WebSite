@@ -81,9 +81,9 @@ $(document).ready(function () {
         silverlight_xap_url: '<?= URL::to('packages/plupload-2.1.1/Moxie.xap') ?>',
         filters: {
             mime_types: [
-                { title: "所有支持的文件", extensions: "mp3,m4a,jpg,png" },
-                { title: "音频文件", extensions: "mp3,m4a" },
-                { title: "图像文件", extensions: "jpg,png" }
+                {title: "所有支持的文件", extensions: "mp3,m4a,jpg,png"},
+                {title: "音频文件", extensions: "mp3,m4a"},
+                {title: "图像文件", extensions: "jpg,png"}
             ],
             max_file_size: "50mb",
             prevent_duplicates: false
@@ -174,7 +174,16 @@ $(document).ready(function () {
                             switch (pType) {
                                 case 'audio':
                                     if (thisMusic) {
-                                        $thisBlock.replaceWith(textFormatter($('#amaoto-music-li').html(), {'ID': thisMusic.id, 'Title': thisMusic.title, 'Artist': thisMusic.artist, 'Year': thisMusic.year, 'Genre': thisMusic.genre, 'Track': thisMusic.track, 'PlayTime': thisMusic.playtime_string, 'MimeType': thisMusic.mime_type}));
+                                        $thisBlock.replaceWith(textFormatter($('#amaoto-music-li').html(), {
+                                            'ID': thisMusic.id,
+                                            'Title': thisMusic.title,
+                                            'Artist': thisMusic.artist,
+                                            'Year': thisMusic.year,
+                                            'Genre': thisMusic.genre,
+                                            'Track': thisMusic.track,
+                                            'PlayTime': thisMusic.playtime_string,
+                                            'MimeType': thisMusic.mime_type
+                                        }));
                                     }
                                     break;
                                 case 'image':
@@ -226,7 +235,8 @@ $(document).ready(function () {
         noty({
             text: '<p class="text-danger" style="font-size: 1.3em; margin: 10px 0;">确定要将此音乐从专辑中移除？</p>',
             buttons: [
-                {addClass: 'btn btn-primary', text: '确定', onClick: function ($noty) {
+                {
+                    addClass: 'btn btn-primary', text: '确定', onClick: function ($noty) {
                     $noty.close();
                     $.ajax({
                         url: '<?= URL::to('api/remove-music-at-album')?>',
@@ -249,10 +259,13 @@ $(document).ready(function () {
                             noty({type: 'error', text: '发生内部错误，请联系管理员'});
                         }
                     });
-                }},
-                {addClass: 'btn btn-default', text: '取消', onClick: function ($noty) {
+                }
+                },
+                {
+                    addClass: 'btn btn-default', text: '取消', onClick: function ($noty) {
                     $noty.close();
-                }}
+                }
+                }
             ]
         });
     });
@@ -269,7 +282,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.btn-open-album-editor', function () {
-        $modal.data('album-id', $(this).data('album-id'));
+        $modal.attr('data-album-id', $(this).data('album-id'));
         $modalTitle.html('修改专辑');
         $albumTitle.val('');
         $albumArtist.val('');
@@ -291,7 +304,16 @@ $(document).ready(function () {
                         $modal.find('.cover-image').attr('src', '' + albumData.album_cover_url + '');
                         var musicsData = rsp.data.musics;
                         musicsData.forEach(function (thisMusic) {
-                            $musicListGroup.append(textFormatter($('#amaoto-music-li').html(), {'ID': thisMusic.id, 'Title': thisMusic.title, 'Artist': thisMusic.artist, 'Year': thisMusic.year, 'Genre': thisMusic.genre, 'Track': thisMusic.track, 'PlayTime': thisMusic.playtime_string, 'MimeType': thisMusic.mime_type}));
+                            $musicListGroup.append(textFormatter($('#amaoto-music-li').html(), {
+                                'ID': thisMusic.id,
+                                'Title': thisMusic.title,
+                                'Artist': thisMusic.artist,
+                                'Year': thisMusic.year,
+                                'Genre': thisMusic.genre,
+                                'Track': thisMusic.track,
+                                'PlayTime': thisMusic.playtime_string,
+                                'MimeType': thisMusic.mime_type
+                            }));
                         });
                         break;
                     default:
@@ -311,7 +333,7 @@ $(document).ready(function () {
     });
 
     $(document).on('submit', 'form#admin-edit-album-form', function (e) {
-        $(this).find('[name=album-id]').val($modal.data('album-id'));
+        $(this).find('input[name=album-id]').val($modal.data('album-id'));
         $.ajax({
             url: '<?= URL::to('api/edit-album')?>',
             type: 'post',
@@ -342,7 +364,8 @@ $(document).ready(function () {
             text: '确定要删除该专辑吗？',
             type: 'warning',
             buttons: [
-                {addClass: 'btn btn-danger', text: '删除专辑与歌曲', onClick: function ($noty) {
+                {
+                    addClass: 'btn btn-danger', text: '删除专辑与歌曲', onClick: function ($noty) {
                     $noty.close();
                     $.ajax({
                         url: '<?= URL::to('api/delete-album-with-music')?>',
@@ -351,17 +374,19 @@ $(document).ready(function () {
                         success: function (raw) {
                             try {
                                 var rsp = $.parseJSON(raw);
-                                noty({type: rsp.type, text: rsp.message, callback: {
-                                    afterClose: function () {
-                                        switch (rsp.type) {
-                                            case 'success':
-                                                location.reload();
-                                                break;
-                                            default:
-                                                break;
+                                noty({
+                                    type: rsp.type, text: rsp.message, callback: {
+                                        afterClose: function () {
+                                            switch (rsp.type) {
+                                                case 'success':
+                                                    location.reload();
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
                                         }
                                     }
-                                }});
+                                });
                             } catch (ex) {
                                 noty({type: 'error', text: '发生内部错误，请联系管理员'});
                                 throw(ex);
@@ -374,7 +399,8 @@ $(document).ready(function () {
                     });
                 }
                 },
-                {addClass: 'btn btn-warning', text: '仅移除专辑', onClick: function ($noty) {
+                {
+                    addClass: 'btn btn-warning', text: '仅移除专辑', onClick: function ($noty) {
                     $noty.close();
                     $.ajax({
                         url: '<?= URL::to('api/delete-album-without-music')?>',
@@ -383,17 +409,19 @@ $(document).ready(function () {
                         success: function (raw) {
                             try {
                                 var rsp = $.parseJSON(raw);
-                                noty({type: rsp.type, text: rsp.message, callback: {
-                                    afterClose: function () {
-                                        switch (rsp.type) {
-                                            case 'success':
-                                                location.reload();
-                                                break;
-                                            default:
-                                                break;
+                                noty({
+                                    type: rsp.type, text: rsp.message, callback: {
+                                        afterClose: function () {
+                                            switch (rsp.type) {
+                                                case 'success':
+                                                    location.reload();
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
                                         }
                                     }
-                                }});
+                                });
                             } catch (ex) {
                                 noty({type: 'error', text: '发生内部错误，请联系管理员'});
                                 throw(ex);
@@ -406,7 +434,8 @@ $(document).ready(function () {
                     });
                 }
                 },
-                {addClass: 'btn btn-default', text: '取消', onClick: function ($noty) {
+                {
+                    addClass: 'btn btn-default', text: '取消', onClick: function ($noty) {
                     $noty.close();
                 }
                 }

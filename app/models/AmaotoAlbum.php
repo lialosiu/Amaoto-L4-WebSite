@@ -19,18 +19,18 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\AmaotoMusic[] $music
  * @property-read \AmaotoFile $cover
  * @property-read \AmaotoFile $cover300
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereId($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereTitle($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereArtist($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereYear($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereGenre($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCover300FileId($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCoverOriFileId($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereUserId($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCreatedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereUpdatedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereDeletedAt($value) 
- * @method static \AmaotoAlbum search($str) 
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereArtist($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereYear($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereGenre($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCover300FileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCoverOriFileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\AmaotoAlbum whereDeletedAt($value)
+ * @method static \AmaotoAlbum search($str)
  */
 class AmaotoAlbum extends Eloquent
 {

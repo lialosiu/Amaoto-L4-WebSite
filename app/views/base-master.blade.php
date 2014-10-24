@@ -16,10 +16,6 @@
     <!-- jQuery Cookie -->
     <script type="text/javascript" src="<?= URL::to('packages/jquery.cookie-1.4.1.min.js') ?>"></script>
 
-    <!-- Semantic UI -->
-    <!--    <link rel="stylesheet" type="text/css" href="{{ URL::to('packages/semantic/css/semantic.css') }}">-->
-    <!--    <script type="text/javascript" src="{{ URL::to('packages/semantic/javascript/semantic.js') }}"></script>-->
-
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="<?= URL::to('packages/bootstrap-3.1.1-dist/css/bootstrap.min.css') ?>">
     <script type="text/javascript" src="<?= URL::to('packages/bootstrap-3.1.1-dist/js/bootstrap.min.js') ?>"></script>

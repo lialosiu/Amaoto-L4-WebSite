@@ -30,20 +30,38 @@ Route::any('register', function () {
     return View::make('register');
 });
 
+Route::any('admin', 'AdminController@showDashboard');
+
+Route::any('admin/list-album', 'AdminController@showListAlbumPage');
+
+Route::any('admin/list-music', 'AdminController@showListMusicPage');
+Route::any('admin/edit-music/{id}', 'AdminController@showEditMusicPage');
+
+Route::any('admin/list-user', 'AdminController@showListUserPage');
+Route::any('admin/edit-user/{id}', 'AdminController@showEditUserPage');
+
+Route::any('admin/option', 'AdminController@showOptionPage');
+
+
 Route::any('api/install', 'ApiController@doInstall');
 
 Route::any('api/login', 'ApiController@doLogin');
 Route::any('api/register', 'ApiController@doSignUp');
 
-Route::any('api/edit-user', 'ApiController@doEditUser');
 Route::any('api/edit-album', 'ApiController@doEditAlbum');
-Route::any('api/edit-option', 'ApiController@doEditOption');
-Route::any('api/upload-music', 'ApiController@doUploadMusic');
-Route::any('api/upload-album', 'ApiController@doUploadAlbum');
-Route::any('api/remove-music-at-album', 'ApiController@doRemoveMusicAtAlbum');
-Route::any('api/delete-music', 'ApiController@doDeleteMusic');
 Route::any('api/delete-album-with-music', 'ApiController@doDeleteAlbumWithMusic');
 Route::any('api/delete-album-without-music', 'ApiController@doDeleteAlbumWithoutMusic');
+
+Route::any('api/edit-music', 'ApiController@doEditMusic');
+Route::any('api/delete-music', 'ApiController@doDeleteMusic');
+Route::any('api/remove-music-at-album', 'ApiController@doRemoveMusicAtAlbum');
+
+Route::any('api/edit-user', 'ApiController@doEditUser');
+
+Route::any('api/edit-option', 'ApiController@doEditOption');
+
+Route::any('api/upload-music', 'ApiController@doUploadMusic');
+Route::any('api/upload-album', 'ApiController@doUploadAlbum');
 
 Route::any('api/get-album/{id}', 'ApiController@getAlbumById');
 Route::any('api/get-albums/{offset}/{limit?}', 'ApiController@getAlbumsByOffsetAndLimit');
@@ -58,14 +76,6 @@ Route::any('api/get-musics-count', 'ApiController@getMusicsCount');
 Route::any('api/download-music/{id}', 'ApiController@downloadMusicById');
 
 Route::any('api/check-file-md5-is-exist', 'ApiController@checkFileMd5IsExist');
-
-Route::any('admin', 'AdminController@showDashboard');
-Route::any('admin/list-user', 'AdminController@showListUserPage');
-Route::any('admin/edit-user/{id}', 'AdminController@showEditUserPage');
-Route::any('admin/list-music', 'AdminController@showListMusicPage');
-Route::any('admin/edit-music/{id}', 'AdminController@showEditMusicPage');
-Route::any('admin/list-album', 'AdminController@showListAlbumPage');
-Route::any('admin/option', 'AdminController@showOptionPage');
 
 Route::any('play-music/{id}', function ($id) {
     $thatMusic = AmaotoMusic::whereId($id)->first();

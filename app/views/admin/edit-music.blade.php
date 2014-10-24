@@ -7,7 +7,7 @@
             <?php if (isset($thatMusic)): ?>
                 <?php /** @var AmaotoMusic $thatMusic */ ?>
                 <form id="admin-edit-music-form" method="post" role="form" data-toggle="validator" action="<?= URL::to('api/edit-music') ?>">
-                    <input type="hidden" name="id" value="<?= $thatMusic->id ?>">
+                    <input type="hidden" name="music-id" value="<?= $thatMusic->id ?>">
                     <?php /** @var AmaotoUser $thatUser */ ?>
                     <div class="panel panel-primary">
                         <div class="panel-heading">编辑音乐信息</div>

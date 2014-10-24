@@ -2,50 +2,134 @@ $(document).ready(function () {
     $.ajaxSetup({
         cache: false
     });
+    BindEvent();
 });
 
-//$(document).on('submit', 'form', function (e) {
-//    return true;
-//    var form = this;
-//    if ($(form).data('do-not-ajax-submit')) return false;
-//    $(form).find('[type=submit]').attr("disabled", true);
-//    var action = $(form).attr('action');
-//    var method = $(form).attr('method');
-//    var successHref = $(form).data('success-href');
-//    $.ajax({
-//        url: action,
-//        type: method,
-//        data: $(form).serialize(),
-//        success: function (raw) {
-//            try {
-//                var rsp = (typeof raw == 'object') ? raw : $.parseJSON(raw);
-//                noty({type: rsp.type, text: rsp.message, callback: {
-//                    afterClose: function () {
-//                        switch (rsp.type) {
-//                            case 'success':
-//                                if (successHref)
-//                                    location.href = successHref;
-//                                else
-//                                    location.reload();
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                        $(form).find('[type=submit]').attr("disabled", false);
-//                    }
-//                }});
-//            } catch (ex) {
-//                noty({type: 'error', text: '发生内部错误，请联系管理员'});
-//                throw(ex);
-//            }
-//        },
-//        error: function (XMLHttpRequest, textStatus, errorThrown) {
-//            noty({type: 'error', text: '发生内部错误，请联系管理员'});
-//            console.error(XMLHttpRequest);
-//        }
-//    });
-//    e.preventDefault();
-//});
+function BindEvent() {
+    $(document).on('submit', '#login-form', function (e) {
+        $(this).find('[type=submit]').attr("disabled", true);
+        $.ajax({
+            url: BaseUrl + '/api/login',
+            type: 'post',
+            data: $(this).serialize(),
+            success: function (raw) {
+                try {
+                    var rsp = $.parseJSON(raw);
+                    noty({
+                        type: rsp.type, text: rsp.message, callback: {
+                            afterClose: function () {
+                                switch (rsp.type) {
+                                    case 'success':
+                                        if (rsp.data.isAdmin)
+                                            location.href = BaseUrl + '/admin';
+                                        else
+                                            location.href = BaseUrl;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                } catch (ex) {
+                    noty({type: 'error', text: '发生内部错误，请联系管理员'});
+                    throw(ex);
+                }
+            }
+        });
+        e.preventDefault();
+    });
+    $(document).on('submit', '#register-form', function (e) {
+        $(this).find('[type=submit]').attr("disabled", true);
+        $.ajax({
+            url: BaseUrl + '/api/register',
+            type: 'post',
+            data: $(this).serialize(),
+            success: function (raw) {
+                try {
+                    var rsp = $.parseJSON(raw);
+                    noty({
+                        type: rsp.type, text: rsp.message, callback: {
+                            afterClose: function () {
+                                switch (rsp.type) {
+                                    case 'success':
+                                        location.href = BaseUrl;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                } catch (ex) {
+                    noty({type: 'error', text: '发生内部错误，请联系管理员'});
+                    throw(ex);
+                }
+            }
+        });
+        e.preventDefault();
+    });
+    $(document).on('submit', '#admin-edit-user-form', function (e) {
+        $(this).find('[type=submit]').attr("disabled", true);
+        $.ajax({
+            url: BaseUrl + '/api/edit-user',
+            type: 'post',
+            data: $(this).serialize(),
+            success: function (raw) {
+                try {
+                    var rsp = $.parseJSON(raw);
+                    noty({
+                        type: rsp.type, text: rsp.message, callback: {
+                            afterClose: function () {
+                                switch (rsp.type) {
+                                    case 'success':
+                                        location.reload();
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                } catch (ex) {
+                    noty({type: 'error', text: '发生内部错误，请联系管理员'});
+                    throw(ex);
+                }
+            }
+        });
+        e.preventDefault();
+    });
+    $(document).on('submit', '#admin-edit-option-form', function (e) {
+        $(this).find('[type=submit]').attr("disabled", true);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'post',
+            data: $(this).serialize(),
+            success: function (raw) {
+                try {
+                    var rsp = $.parseJSON(raw);
+                    noty({
+                        type: rsp.type, text: rsp.message, callback: {
+                            afterClose: function () {
+                                switch (rsp.type) {
+                                    case 'success':
+                                        location.reload();
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                } catch (ex) {
+                    noty({type: 'error', text: '发生内部错误，请联系管理员'});
+                    throw(ex);
+                }
+            }
+        });
+        e.preventDefault();
+    });
+}
 
 function textFormatter(o_text, obj) {
     var text = o_text;
@@ -765,8 +849,8 @@ Amaoto.Class.Player = function () {
         $.each(playlist, function (i, music) {
             idArray.push(music.id);
         });
-        $.cookie('playlist', idArray.toString(), { expires: 7 });
-        $.cookie('PlayingIndex', playingIndex, { expires: 7 });
+        $.cookie('playlist', idArray.toString(), {expires: 7});
+        $.cookie('PlayingIndex', playingIndex, {expires: 7});
     };
 
     this.loadPlaylistFromCookie = function () {

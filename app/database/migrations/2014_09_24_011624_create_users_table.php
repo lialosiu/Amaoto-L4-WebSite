@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable();
             $table->string('password');
+            $table->integer('power');
             $table->string('reg_ip');
             $table->integer('reg_time');
             $table->string('login_ip')->nullable();
@@ -25,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('act_ip')->nullable();
             $table->integer('act_time')->nullable();
             $table->string('remember_token')->nullable();
-            $table->unsignedBigInteger('user_group_id');
             $table->timestamps();
             $table->softDeletes();
         });
